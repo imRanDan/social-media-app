@@ -1,8 +1,25 @@
 import { Box, Button, VStack ,Input, Flex, Text, Image} from '@chakra-ui/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
+    const navigate = useNavigate();
+    const [inputs, setInputs] = useState ({
+        email: '',
+        password: '',
+        confirmPassword: ''
+    })
+
+    const handleAuth = () => {
+        if (!inputs.email || !inputs.password) {
+            alert("Please fill in all the fields");
+            return
+        }
+        
+        navigate("/");
+
+    }
 
   return (
     <>
@@ -13,22 +30,28 @@ const AuthForm = () => {
                     placeholder='Email'
                     fontSize={14}
                     type='email'
+                    value={inputs.email}
+                    onChange={(e) => setInputs({...inputs,email:e.target.value})}
                 />
                 <Input 
                     placeholder='Password'
                     fontSize={14}
                     type='password'
+                    value={inputs.password}
+                    onChange={(e) => setInputs({...inputs,password:e.target.value})}
                 />
                 {/* Thus is a ternary to check if user is logged in and it uses State */}
                 {!isLogin ? (
                     <Input 
+                    value={inputs.confirmPassword}
+                    onChange={(e) => setInputs({...inputs,confirmPassword:e.target.value})}
                     placeholder='Confirm Password'
                     fontSize={14}
                     type='password'
                 />
                 ) : null}
 
-                <Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14}>
+                <Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14} onClick={handleAuth}>
                     {isLogin? "Log in" : "Sign Up"}
                 </Button>
 
