@@ -16,13 +16,13 @@ const SuggestedUsers = () => {
           </Text>
         </Flex>
 
-        <SuggestedUser />
+        <SuggestedUser name='Dan Abrahmov' followers={505} avatar='https://bit.ly/dan-abramov' />
 
-        <SuggestedUser />
+        <SuggestedUser name='Ryan Florence' followers={568} avatar='https://bit.ly/ryan-florence'  />
 
-        <SuggestedUser />
+        <SuggestedUser name='Christian Nwamba' followers={790} avatar='https://bit.ly/code-beast' />
 
-        <Box fontSize={12} color={"gray.500"} mt={5}>
+        <Box fontSize={12} color={"gray.500"} mt={5} >
           2024 Built By {" "}
           <Link href='https://github.com/imRanDan' target='_blank' color='blue.500' fontSize={14}>
             imRanDan
