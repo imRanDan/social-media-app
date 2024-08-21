@@ -1,4 +1,4 @@
-import { Box, Button, VStack ,Input, Flex, Text, Image} from '@chakra-ui/react';
+import { Box, VStack, Flex, Text, Image} from '@chakra-ui/react';
 import { useState } from 'react';
 import Login from './Login';
 import Signup from './Signup';
