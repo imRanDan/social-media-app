@@ -1,4 +1,4 @@
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
 import { Input, InputGroup, InputRightElement, Alert, AlertIcon, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import useSignUpWithEmailAndPassword from "../../hooks/useSignUpWithEmailAndPassword";
@@ -59,7 +59,7 @@ const Signup = () => {
 
         {error && (
             <Alert status='error' fontSize={13} p={2} borderRadius={4}>
-                <Alert fontSize={12} />
+                <AlertIcon fontSize={12} />
                 {error.message}
             </Alert>
         )}
