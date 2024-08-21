@@ -1,6 +1,5 @@
 import { Box, Button, VStack ,Input, Flex, Text, Image} from '@chakra-ui/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -16,20 +15,6 @@ const AuthForm = () => {
         <Box border={"1px solid gray"} borderRadius={4} padding={5}>
             <VStack spacing={4}>
                 <Image src='/logo.png' h={24} cursor={"pointer"} alt='Instagram'/>
-                <Input 
-                    placeholder='Email'
-                    fontSize={14}
-                    type='email'
-                    value={inputs.email}
-                    onChange={(e) => setInputs({...inputs,email:e.target.value})}
-                />
-                <Input 
-                    placeholder='Password'
-                    fontSize={14}
-                    type='password'
-                    value={inputs.password}
-                    onChange={(e) => setInputs({...inputs,password:e.target.value})}
-                />
                 {/* Thus is a ternary to check if user is logged in and it uses State */}
                 {!isLogin ? (
                     <Input 
@@ -42,7 +27,7 @@ const AuthForm = () => {
                 ) : null}
 
                 <Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14}>
-                    {isLogin? "Log in" : "Sign Up"}
+                    {isLogin ? "Log in" : "Sign Up"}
                 </Button>
 
                 {/*----- Or Render ----- */}
