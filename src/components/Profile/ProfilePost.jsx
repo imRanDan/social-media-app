@@ -60,10 +60,18 @@ const ProfilePost = ({img}) => {
                                 <Comment createdAt="1d ago" username="danimran" profilePic="/profilepic.jpg" text={"dummy image from unspash"} />
                                 <Comment createdAt="1d ago" username="abrahmov" profilePic="/https://bit.ly/dan-abramov" text={"Nice pic bro"} />
                                 <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
+                                <Comment createdAt="1d ago" username="kentdodds" profilePic="/profilepic.jpg" text={"Cool clone brah!"} />
                             </VStack>
                             <Divider my={4} bg={"gray.800"} />
 
-                            <PostFooter  />
+                            <PostFooter isProfilePage={true}  />
                         </Flex>
                     </Flex>
                 </ModalBody>

@@ -3,7 +3,7 @@ import { useState } from "react"
 import { CommentLogo, NotificationsLogo, UnlikeLogo} from '../../assets/constants'
 
 
-const PostFooter = ({username}) => {
+const PostFooter = ({username, isProfilePage}) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
 
@@ -32,15 +32,21 @@ const PostFooter = ({username}) => {
       <Text fontWeight={600} fontSize={"sm"}>
         {likes} likes
       </Text>
-      <Text fontSize={"sm"} fontWeight={700}>
-        {username} {" "}
-        <Text as="span" fontWeight={400}>
-          Feeling Solid
-        </Text>
-      </Text>
-      <Text fontSize="sm" color={"gray"}>
-        View all 1,000 comments
-      </Text>
+      {!isProfilePage && (
+        <>
+          <Text fontSize={"sm"} fontWeight={700}>
+              {username} {" "}
+            <Text as="span" fontWeight={400}>
+              Feeling Solid
+            </Text>
+            </Text>
+            <Text fontSize="sm" color={"gray"}>
+            View all 1,000 comments
+          </Text>
+        </>
+      )}
+
+
 
       <Flex alignItems={"center"} gap={2} justifyContent={"space-between"} w={"full"}>
         <InputGroup>
