@@ -1,13 +1,12 @@
 import { Box, Button, VStack ,Input, Flex, Text, Image} from '@chakra-ui/react';
 import { useState } from 'react';
+import Login from './Login';
+import Signup from './Signup';
+import GoogleAuth from './GoogleAuth';
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
-    const [inputs, setInputs] = useState ({
-        email: '',
-        password: '',
-        confirmPassword: ''
-    })
+
 
 
   return (
@@ -16,19 +15,8 @@ const AuthForm = () => {
             <VStack spacing={4}>
                 <Image src='/logo.png' h={24} cursor={"pointer"} alt='Instagram'/>
                 {/* Thus is a ternary to check if user is logged in and it uses State */}
-                {!isLogin ? (
-                    <Input 
-                    value={inputs.confirmPassword}
-                    onChange={(e) => setInputs({...inputs,confirmPassword:e.target.value})}
-                    placeholder='Confirm Password'
-                    fontSize={14}
-                    type='password'
-                />
-                ) : null}
 
-                <Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14}>
-                    {isLogin ? "Log in" : "Sign Up"}
-                </Button>
+                {isLogin ? <Login /> : <Signup />}
 
                 {/*----- Or Render ----- */}
                 <Flex alignItems={"center"} justifyContent={"center"} my={4} gap={1} w={"full"}>
@@ -38,12 +26,7 @@ const AuthForm = () => {
                 </Flex>
 
                 {/* Login with Google */}
-                <Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"}>
-                    <Image src='/google.png' w={5} alt='Google logo' />
-                    <Text mx="2" color={"blue.500"}>
-                        Log in with Google
-                    </Text>
-                </Flex>
+                <GoogleAuth />
             </VStack> 
         </Box>
 
