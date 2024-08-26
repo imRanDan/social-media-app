@@ -26,7 +26,7 @@ const AuthForm = () => {
                 </Flex>
 
                 {/* Login with Google */}
-                <GoogleAuth />
+                <GoogleAuth prefix={isLogin ? "Log in" : "Sign up"} />
             </VStack> 
         </Box>
 
