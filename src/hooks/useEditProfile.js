@@ -20,10 +20,10 @@ const useEditProfile = () => {
         const storageRef = ref(storage, `profilePics/${authUser.uid}`)
         const userDocRef = doc(firestore, "users", authUser.uid)
 
-        let URL = ''
+        let URL = "";
         try {
             if(selectedFile){
-                await uploadString(storageRef, selectedFile, "date_url")
+                await uploadString(storageRef, selectedFile, "data_url")
                 URL = await getDownloadURL(ref(storage, `profilePics/${authUser.uid}`))
             }
             const updatedUser = {
