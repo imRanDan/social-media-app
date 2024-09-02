@@ -1,4 +1,4 @@
-import { auth } from "../firebase/firebase"
+import { auth, firestore } from "../firebase/firebase"
 import useAuthStore from "../store/authStore"
 import { useEffect, useState } from "react"
 
@@ -14,7 +14,8 @@ const useFollowUser = (userId) => {
     const handleFollowUser = async () => {
         setIsLoading(true)
         try {
-            
+            const currentUserRef = doc(firestore, "users", authUser.uid)
+
         } catch (error) {
          showToast("Error", error.message, "error")   
         } finally {
