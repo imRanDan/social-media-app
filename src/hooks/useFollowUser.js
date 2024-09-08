@@ -37,7 +37,7 @@ const useFollowUser = (userId) => {
                 })
                 setUserProfile({
                     ...userProfile,
-                    followers: userProfile.follwers.filter(uid => uid !== authUser.uid)
+                    followers: userProfile.followers.filter(uid => uid !== authUser.uid)
                 })
 
                 localStorage.setItem("user-info", JSON.stringify({
