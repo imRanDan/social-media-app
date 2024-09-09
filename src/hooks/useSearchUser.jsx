@@ -10,6 +10,7 @@ const useSearchUser = () => {
 
     const getUserProfile = async(username) => {
         setisLoading(true)
+        setUser(null)
         
         try {
             const q = query(collection(firestore, "users"), where("username", "==", username))
