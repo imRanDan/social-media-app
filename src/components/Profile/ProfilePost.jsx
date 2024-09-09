@@ -20,6 +20,7 @@ const ProfilePost = ({post}) => {
     const showToast = useShowToast()
     const[isDeleting, setIsDeleting] = useState(false)
     const deletePost = usePostStore(state => state.deletePost)
+    const decrementPostsCount = useUserProfileStore((state) => state.deletePost)
 
     const handleDeletePost = async () => {
         if(!window.confirm("Are you sure you want to delete this post?")) return
@@ -34,6 +35,7 @@ const ProfilePost = ({post}) => {
                 posts: arrayRemove(post.id)
             })
             deletePost(post.id)
+            decrementPostsCount(post.id)
             showToast("Success", "Post deleted successfully", "success")
 
         } catch (error) {
@@ -93,14 +95,15 @@ const ProfilePost = ({post}) => {
                             </Flex>
                             <Divider my={4} bg={"gray.500"} />
                             <VStack w="full" alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
-
-                                <Comment createdAt="1d ago" username="danimran" profilePic="/profilepic.jpg" text={"dummy image from unspash"} />
-                                <Comment createdAt="1d ago" username="abrahmov" profilePic="/https://bit.ly/dan-abramov" text={"Nice pic bro"} />
+                                
+                                {post.comments.map(comment => (
+                                    <Comment key={comment.id} comment={comment} />
+                                ))}
 
                             </VStack>
                             <Divider my={4} bg={"gray.800"} />
 
-                            <PostFooter isProfilePage={true}  />
+                            <PostFooter isProfilePage={true} post={post} />
                         </Flex>
                     </Flex>
                 </ModalBody>
