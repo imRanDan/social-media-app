@@ -12,6 +12,7 @@ import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore"
 import usePostStore from "../../store/postStore"
 import { useState } from "react"
 import useShowToast from "../../hooks/useShowToast"
+import Caption from "../Comment/Caption"
 
 const ProfilePost = ({post}) => {
     const { isOpen, onOpen, onClose} = useDisclosure()
@@ -95,7 +96,11 @@ const ProfilePost = ({post}) => {
                             </Flex>
                             <Divider my={4} bg={"gray.500"} />
                             <VStack w="full" alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
-                                
+                                {/* Caption zonee */}
+                                {post.caption && <Caption post={post} />}
+
+
+                                {/* Comments zone */}
                                 {post.comments.map(comment => (
                                     <Comment key={comment.id} comment={comment} />
                                 ))}
