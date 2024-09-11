@@ -1,4 +1,4 @@
-import { Box, Button, CloseButton, Flex, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, Tooltip, useDisclosure, useShortcut } from "@chakra-ui/react";
+import { Box, Button, CloseButton, Flex, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, Tooltip, useDisclosure} from "@chakra-ui/react";
 import { CreatePostLogo } from "../../assets/constants";
 import {BsFillImageFill} from "react-icons/bs";
 import { useState, useRef } from "react";
@@ -139,7 +139,7 @@ function useCreatePost() {
 			newPost.imageURL = downloadURL;
 
 			if(userProfile.uid === authUser.uid) createPost({...newPost, id:postDocRef.id})
-				
+
 			if(pathname !== "/" && userProfile.uid === authUser.uid) addPost({...newPost, id:postDocRef.id})
 
 
