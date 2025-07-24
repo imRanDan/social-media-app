@@ -5,9 +5,9 @@ https://github.com/user-attachments/assets/ab1d7400-bcdf-40c0-a464-f4dfb5da6c3e
 
 
 
-# Instagram Clone
+**ConnectWit** is a private social network MVP designed for close-knit friend groups. It was inspired by Instagram but reimagined to prioritize tighter social circles and real-time interaction.
 
-This is a fully functional Instagram clone built with **React**, **Chakra UI**, **Vite**, and powered by **Zustand** for state management and **Firebase** as the backend database.
+Built with React, Vite, Chakra UI, and Firebase, the project handles authentication, media sharing, and live updates — making it a strong foundation for scalable social platforms.
 
 ## Features
 
