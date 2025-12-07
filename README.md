@@ -1,8 +1,6 @@
 
 
 
-https://github.com/user-attachments/assets/ab1d7400-bcdf-40c0-a464-f4dfb5da6c3e
-
 
 
 **ConnectWit** is a private social network MVP designed for close-knit friend groups. It was inspired by Instagram but reimagined to prioritize tighter social circles, privacy, and real-time interaction.
