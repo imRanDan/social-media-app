@@ -14,8 +14,6 @@ const Search = () => {
 		e.preventDefault()
 		getUserProfile(searchRef.current.value)
 	}
-	
-	console.log(user)
 
 	return (
 		<>
@@ -63,7 +61,7 @@ const Search = () => {
 									</Button>
 								</Flex>
 							</form>
-							{user && <SuggestedUser user={user} setUser={setUser} />}
+							{user && <SuggestedUser user={user} />}
 
 						</ModalBody> 
 					</ModalContent>

@@ -1,4 +1,4 @@
-import { Box, Button, CloseButton, Flex, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, Tooltip, useDisclosure} from "@chakra-ui/react";
+import { Box, Button, CloseButton, Flex, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, Tooltip, useDisclosure, FormControl, FormLabel, Select} from "@chakra-ui/react";
 import { CreatePostLogo } from "../../assets/constants";
 import {BsFillImageFill} from "react-icons/bs";
 import { useState, useRef } from "react";
@@ -11,21 +11,25 @@ import { useLocation } from "react-router-dom";
 import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "../../firebase/firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import useGroups from "../../hooks/useGroups";
 
  const CreatePost = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [caption, setCaption] = useState("")
+	const [selectedGroup, setSelectedGroup] = useState("")
 	const imageRef = useRef(null)
 	const {handleImageChange, selectedFile, setSelectedFile} = usePreviewImg()
 	const showToast = useShowToast()
 	const {isLoading, handleCreatePost} = useCreatePost()
+	const { groups } = useGroups()
 
 	const handlePostCreation = async () => {
 		try {
-			await handleCreatePost(selectedFile, caption)
+			await handleCreatePost(selectedFile, caption, selectedGroup || null)
 			onClose()
 			setCaption("")
 			setSelectedFile(null)
+			setSelectedGroup("")
 
 		} catch (error) {
 			showToast("Error", error.message, "error")
@@ -64,6 +68,20 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 					<ModalHeader>Create Post</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
+						<FormControl mb={4}>
+							<FormLabel>Share to Group (Optional)</FormLabel>
+							<Select 
+								placeholder="Everyone (Public)"
+								value={selectedGroup}
+								onChange={(e) => setSelectedGroup(e.target.value)}
+							>
+								{groups.map((group) => (
+									<option key={group.id} value={group.id}>
+										{group.name}
+									</option>
+								))}
+							</Select>
+						</FormControl>
 						<Textarea 
 						placeholder='Post caption...' 
 						value={caption}
@@ -113,7 +131,7 @@ function useCreatePost() {
 	const userProfile = useUserProfileStore(state => state.userProfile)
 	const {pathname} = useLocation()
 
-	const handleCreatePost = async ( selectedFile, caption ) => {
+	const handleCreatePost = async ( selectedFile, caption, groupId = null ) => {
 		if(isLoading) return;
 		if(!selectedFile) throw new Error("Please select an image")
 			setIsLoading(true)
@@ -123,6 +141,7 @@ function useCreatePost() {
 			comments: [],
 			createdAt: Date.now(),
 			createdBy: authUser.uid,
+			groupId: groupId || null, // null means public post
 		}
 
 		try {

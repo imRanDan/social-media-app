@@ -1,5 +1,6 @@
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth, firestore } from '../firebase/firebase'
+import { auth, firestore } from '../firebase/firebase';
+import { deleteUser } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import useShowToast from './useShowToast';
 import useAuthStore from '../store/authStore';
@@ -16,15 +17,6 @@ const useSignUpWithEmailAndPassword = () => {
         return
     }
 
-    const usersRef = collection(firestore, "users");
-
-    const q = query(usersRef, where("username", "==", inputs.username))
-    const querySnapshot = await getDocs(q)
-
-    if(!querySnapshot.empty){
-        showToast("Error", "Username already exists!", )
-    }
-
     try {
           const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password)
           if(!newUser && error) {
@@ -32,6 +24,20 @@ const useSignUpWithEmailAndPassword = () => {
         return
     }
     if(newUser) {
+        // Check username availability after authentication
+        const usersRef = collection(firestore, "users");
+        const q = query(usersRef, where("username", "==", inputs.username))
+        const querySnapshot = await getDocs(q)
+
+        if(!querySnapshot.empty){
+            showToast("Error", "Username already exists!", "error")
+            // Delete the auth user since username is taken
+            if (auth.currentUser) {
+                await deleteUser(auth.currentUser)
+            }
+            return
+        }
+
         const userDoc = {
             uid:newUser.user.uid,
             email:inputs.email,
@@ -42,6 +48,10 @@ const useSignUpWithEmailAndPassword = () => {
             followers:[],
             following:[],
             posts:[],
+            isPrivate: false, // Privacy setting - default to public
+            friendRequests: [], // Incoming friend requests
+            sentFriendRequests: [], // Outgoing friend requests
+            groups: [], // Groups/circles the user belongs to
             createdAt: Date.now(),
             }
             await setDoc(doc(firestore, "users", newUser.user.uid), userDoc)

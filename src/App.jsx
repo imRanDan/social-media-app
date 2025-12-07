@@ -4,6 +4,7 @@ import AuthPage from "../pages/AuthPage/AuthPage";
 import PageLayout from "./Layouts/PageLayout/PageLayout";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
+import GroupsPage from "../pages/GroupsPage/GroupsPage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
 
@@ -21,8 +22,9 @@ function App() {
           path="/auth"
           element={!authUser ? <AuthPage /> : <Navigate to="/" />}
         />
-        <Route path="/:username" element={<ProfilePage />} />
+        <Route path="/:username" element={authUser ? <ProfilePage /> : <Navigate to="/auth" />} />
         <Route path="/notifications" element={<NotificationPage />} />
+        <Route path="/groups" element={authUser ? <GroupsPage /> : <Navigate to="/auth" />} />
       </Routes>
     </PageLayout>
   );

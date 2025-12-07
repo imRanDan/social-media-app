@@ -1,20 +1,18 @@
 import { Avatar, Box, Button, Flex, VStack } from "@chakra-ui/react";
-import useFollowUser from "../../hooks/useFollowUser";
+import useFriendRequest from "../../hooks/useFriendRequest";
 import useAuthStore from "../../store/authStore";
 import { Link } from "react-router-dom";
 
-const SuggestedUser = ({ user, setUser }) => {
-	const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(user.uid);
+const SuggestedUser = ({ user }) => {
+	const { requestStatus, isLoading, sendFriendRequest, unfollow } = useFriendRequest(user.uid);
 	const authUser = useAuthStore((state) => state.user);
 
-	const onFollowUser = async () => {
-		await handleFollowUser();
-		setUser({
-			...user,
-			followers: isFollowing
-				? user.followers.filter((follower) => follower.uid !== authUser.uid)
-				: [...user.followers, authUser],
-		});
+	const handleFollowClick = async () => {
+		if (requestStatus === 'friends') {
+			await unfollow();
+		} else {
+			await sendFriendRequest();
+		}
 	};
 
 	return (
@@ -34,7 +32,7 @@ const SuggestedUser = ({ user, setUser }) => {
 					</Box>
 				</VStack>
 			</Flex>
-			{authUser.uid !== user.uid && (
+			{authUser && authUser.uid !== user.uid && (
 				<Button
 					fontSize={13}
 					bg={"transparent"}
@@ -44,10 +42,12 @@ const SuggestedUser = ({ user, setUser }) => {
 					color={"blue.400"}
 					cursor={"pointer"}
 					_hover={{ color: "white" }}
-					onClick={onFollowUser}
-					isLoading={isUpdating}
+					onClick={handleFollowClick}
+					isLoading={isLoading}
 				>
-					{isFollowing ? "Unfollow" : "Follow"}
+					{requestStatus === 'friends' ? "Unfollow" : 
+					 requestStatus === 'sent' ? "Requested" : 
+					 "Follow"}
 				</Button>
 			)}
 		</Flex>

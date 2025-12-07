@@ -28,9 +28,10 @@ const useEditProfile = () => {
             }
             const updatedUser = {
                 ...authUser,
-                fullName: inputs.fullName || authUser.fullName,
-                username: inputs.username || authUser.username,
-                bio: inputs.bio || authUser.bio,
+                fullName: inputs.fullName !== undefined ? inputs.fullName : authUser.fullName,
+                username: inputs.username !== undefined ? inputs.username : authUser.username,
+                bio: inputs.bio !== undefined ? inputs.bio : authUser.bio,
+                isPrivate: inputs.isPrivate !== undefined ? inputs.isPrivate : (authUser.isPrivate || false),
                 profilePicURL: URL || authUser.profilePicURL,
             }
 

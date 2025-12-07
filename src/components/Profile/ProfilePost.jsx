@@ -45,7 +45,6 @@ const ProfilePost = ({post}) => {
             setIsDeleting(false)
         }
     }
-    console.log(post)
 
   return (
     <>

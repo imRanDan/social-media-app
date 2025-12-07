@@ -1,4 +1,4 @@
-import { Avatar, Button, Center, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack,}  from "@chakra-ui/react";
+import { Avatar, Box, Button, Center, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Stack, Switch, Text}  from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import useAuthStore from "../../store/authStore";
 import usePreviewImg from "../../hooks/usePreviewImg";
@@ -9,7 +9,8 @@ const EditProfile = ({ isOpen, onClose }) => {
     const [inputs, setInputs] = useState({
         fullName: '',
         username: '',
-        bio: ''
+        bio: '',
+        isPrivate: false
     })
 
 	const authUser = useAuthStore((state) => state.user)
@@ -66,12 +67,24 @@ const EditProfile = ({ isOpen, onClose }) => {
  									<Input placeholder={"Username"} size={"sm"} type={"text"} value={inputs.username || authUser.username} onChange={(e) => setInputs({...inputs, username: e.target.value})} />
  								</FormControl>
 
- 								<FormControl>
- 									<FormLabel fontSize={"sm"}>Bio</FormLabel>
- 									<Input placeholder={"Bio"} size={"sm"} type={"text"} value={inputs.bio || authUser.bio} onChange={(e) => setInputs({...inputs, bio: e.target.value})} />
- 								</FormControl>
+								<FormControl>
+									<FormLabel fontSize={"sm"}>Bio</FormLabel>
+									<Input placeholder={"Bio"} size={"sm"} type={"text"} value={inputs.bio || authUser.bio} onChange={(e) => setInputs({...inputs, bio: e.target.value})} />
+								</FormControl>
 
- 								<Stack spacing={6} direction={["column", "row"]}>
+								<FormControl display="flex" alignItems="center" justifyContent="space-between">
+									<Box>
+										<FormLabel fontSize={"sm"} mb={0}>Private Profile</FormLabel>
+										<Text fontSize="xs" color="gray.400">Only approved friends can see your posts</Text>
+									</Box>
+									<Switch 
+										isChecked={inputs.isPrivate !== undefined ? inputs.isPrivate : (authUser.isPrivate || false)}
+										onChange={(e) => setInputs({...inputs, isPrivate: e.target.checked})}
+										colorScheme="purple"
+									/>
+								</FormControl>
+
+								<Stack spacing={6} direction={["column", "row"]}>
  									<Button
  										bg={"red.400"}
  										color={"white"}

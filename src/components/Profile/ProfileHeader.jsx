@@ -1,15 +1,15 @@
-import { Avatar, AvatarGroup, Flex, VStack, Text, Button, useDisclosure } from "@chakra-ui/react"
+import { Avatar, AvatarGroup, Flex, VStack, Text, Button, useDisclosure, Badge } from "@chakra-ui/react"
 import useUserProfileStore from "../../store/userProfileStore"
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
-import useFollowUser from "../../hooks/useFollowUser";
+import useFriendRequest from "../../hooks/useFriendRequest";
 
 
 const ProfileHeader = () => {
     const {userProfile} = useUserProfileStore();
     const authUser  = useAuthStore((state) => state.user);
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const {isFollowing, isLoading, handleFollowUser} = useFollowUser(userProfile?.uid)
+    const {requestStatus, isLoading, sendFriendRequest, acceptFriendRequest, declineFriendRequest, cancelFriendRequest, unfollow} = useFriendRequest(userProfile?.uid)
 
     const visitingYourOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
     const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
@@ -22,9 +22,14 @@ const ProfileHeader = () => {
 
         <VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>
             <Flex gap={4} direction={{base:"column",sm:"row"}} justifyContent={{base:"center",sm:"flex-start"}} alignItems={"center"} w={"full"}>
-                <Text fontSize={{base:"sm",md:"lg"}}>
-                    {userProfile.username}
-                </Text>
+                <Flex gap={2} alignItems={"center"}>
+                    <Text fontSize={{base:"sm",md:"lg"}}>
+                        {userProfile.username}
+                    </Text>
+                    {userProfile.isPrivate && (
+                        <Badge colorScheme="purple" fontSize="xs">Private</Badge>
+                    )}
+                </Flex>
                 {visitingYourOwnProfileAndAuth && (
                 <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
                     <Button bg={"white"} color={"black"} _hover={{bg:"whiteAlpha.800"}} size={{base:"xs",md:"sm"}} onClick={onOpen}>
@@ -34,9 +39,31 @@ const ProfileHeader = () => {
                 )}
                 {visitingAnotherProfileAndAuth && (
                 <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
-                    <Button bg={"blue.500"} color={"white"} _hover={{bg:"blue.600"}} size={{base:"xs",md:"sm"}} onClick={handleFollowUser} isLoading={isLoading}>
-                        {isFollowing ? "Unfollow" : "Follow"}
-                    </Button>
+                    {requestStatus === 'friends' && (
+                        <Button bg={"gray.600"} color={"white"} _hover={{bg:"gray.700"}} size={{base:"xs",md:"sm"}} onClick={unfollow} isLoading={isLoading}>
+                            Unfollow
+                        </Button>
+                    )}
+                    {requestStatus === 'sent' && (
+                        <Button bg={"gray.500"} color={"white"} _hover={{bg:"gray.600"}} size={{base:"xs",md:"sm"}} onClick={cancelFriendRequest} isLoading={isLoading}>
+                            Cancel Request
+                        </Button>
+                    )}
+                    {requestStatus === 'received' && (
+                        <Flex gap={2}>
+                            <Button bg={"green.500"} color={"white"} _hover={{bg:"green.600"}} size={{base:"xs",md:"sm"}} onClick={acceptFriendRequest} isLoading={isLoading}>
+                                Accept
+                            </Button>
+                            <Button bg={"red.500"} color={"white"} _hover={{bg:"red.600"}} size={{base:"xs",md:"sm"}} onClick={declineFriendRequest} isLoading={isLoading}>
+                                Decline
+                            </Button>
+                        </Flex>
+                    )}
+                    {requestStatus === 'none' && (
+                        <Button bg={"blue.500"} color={"white"} _hover={{bg:"blue.600"}} size={{base:"xs",md:"sm"}} onClick={sendFriendRequest} isLoading={isLoading}>
+                            {userProfile.isPrivate ? "Send Request" : "Follow"}
+                        </Button>
+                    )}
                 </Flex>
                 )}
             </Flex>

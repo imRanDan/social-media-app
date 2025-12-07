@@ -1,11 +1,14 @@
 import { Flex, Avatar, Box, Text, SkeletonCircle, Skeleton, Button } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import useFollowUser from "../../hooks/useFollowUser"
+import useFriendRequest from "../../hooks/useFriendRequest"
+import useAuthStore from "../../store/authStore"
 import { timeAgo } from "../../utils/timeAgo"
 
 const PostHeader = ({post, creatorProfile}) => {
-
-  const {handleFollowUser, isFollowing, isUpdating} =  useFollowUser(post.createdBy)
+  const authUser = useAuthStore((state) => state.user)
+  const {requestStatus, isLoading, sendFriendRequest, unfollow} = useFriendRequest(post.createdBy)
+  
+  const isOwnPost = authUser && authUser.uid === post.createdBy
 
   // if (!creatorProfile) {
   //   return null
@@ -33,11 +36,25 @@ const PostHeader = ({post, creatorProfile}) => {
         <Box color={"gray.500"}>{timeAgo(post.createdAt)}</Box>
         </Flex>
       </Flex>
-      <Button cursor={"pointer"} >
-        <Text size={"xs"} bg={"transparent"} fontSize={12} color={"blue.500"} fontWeight={"bold"} _hover={{color: "white"}} transition={"0.2s ease-in-out"} onClick={handleFollowUser} isLoading={isUpdating}>
-          {isFollowing ? "Unfollow" : "Follow"}
-        </Text>
-      </Button>
+      {!isOwnPost && creatorProfile && (
+        <Button cursor={"pointer"} >
+          <Text 
+            size={"xs"} 
+            bg={"transparent"} 
+            fontSize={12} 
+            color={"blue.500"} 
+            fontWeight={"bold"} 
+            _hover={{color: "white"}} 
+            transition={"0.2s ease-in-out"} 
+            onClick={requestStatus === 'friends' ? unfollow : sendFriendRequest} 
+            isLoading={isLoading}
+          >
+            {requestStatus === 'friends' ? "Unfollow" : 
+             requestStatus === 'sent' ? "Requested" : 
+             "Follow"}
+          </Text>
+        </Button>
+      )}
     </Flex>
   )
 }
