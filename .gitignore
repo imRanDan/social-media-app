@@ -26,3 +26,6 @@ dist-ssr
 
 
 .env
+
+# Implementation docs (may contain sensitive info)
+IMPLEMENTATION_SUMMARY.md
