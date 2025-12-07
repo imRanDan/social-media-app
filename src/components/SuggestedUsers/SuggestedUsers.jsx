@@ -29,7 +29,7 @@ const SuggestedUsers = () => {
 
         <Box fontSize={12} color={"gray.500"} mt={5} >
           2024 Built By {" "}
-          <Link href='https://github.com/imRanDan' target='_blank' color='blue.500' fontSize={14}>
+          <Link href='https://github.com/imRanDan' target='_blank' rel='noopener noreferrer' color='blue.500' fontSize={14}>
             imRanDan
           </Link>
         </Box>
